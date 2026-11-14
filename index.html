@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Galactic Z: Space Warriors</title>
+<meta name="description" content="Galactic Z: Space Warriors. Defiende tu fortaleza espacial contra hordas de zombis: 50 niveles, 5 planetas, minijuegos, misiones especiales y apoyo aéreo.">
+<meta property="og:title" content="Galactic Z: Space Warriors">
+<meta property="og:description" content="Defiende la fortaleza. Sobrevive a las hordas. Conquista 5 planetas.">
+<meta property="og:image" content="assets/bg.jpg">
+<style>
+@font-face{font-family:Injekuta;src:url(assets/injekuta_bd.otf);font-weight:700}
+@font-face{font-family:Injekuta;src:url(assets/injekuta_bl.otf);font-weight:900}
+:root{
+  --bg:#050b1e; --panel:#0f1b33; --panel2:#14213d; --gold:#ffd43a; --gold2:#ffb21e; --cyan:#39e0ff; --blue:#2e7bff; --ink:#e8eefc; --dim:#9db0d8;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:Injekuta,system-ui,sans-serif;font-weight:700;line-height:1.5;overflow-x:hidden}
+h1,h2,h3,.btn,.tag{font-family:Injekuta,sans-serif;font-weight:900;text-transform:uppercase;letter-spacing:.04em}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1120px,100% - 32px);margin-inline:auto}
+
+/* fondo cósmico fijo */
+.space{position:fixed;inset:0;z-index:-2;background:var(--bg) url(assets/bg.jpg) center/cover no-repeat;opacity:.55}
+.space::after{content:"";position:absolute;inset:0;background:linear-gradient(#050b1e 0%,#050b1e99 30%,#050b1ecc 100%)}
+canvas#stars{position:fixed;inset:0;z-index:-1;width:100%;height:100%}
+
+/* nav */
+nav{position:sticky;top:0;z-index:10;backdrop-filter:blur(10px);background:#050b1eb0;border-bottom:2px solid #2e7bff55}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{font-family:Injekuta;font-weight:900;font-size:20px;color:var(--gold);text-shadow:0 2px 0 #1b3f9c}
+nav ul{display:flex;gap:22px;list-style:none;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+nav ul a:hover{color:var(--gold)}
+@media(max-width:720px){nav ul{display:none}}
+
+/* botones estilo juego */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:0 34px;border-radius:999px;font-size:18px;cursor:pointer;border:3px solid #2e5fd1;transition:transform .15s,box-shadow .15s}
+.btn.gold{background:linear-gradient(#fff3a8,var(--gold) 45%,var(--gold2));color:#14213d;box-shadow:0 6px 0 #a8730a,0 0 30px #ffd43a55}
+.btn.gold:hover{transform:translateY(-3px);box-shadow:0 9px 0 #a8730a,0 0 44px #ffd43a99}
+.btn.dark{background:var(--panel2);color:var(--gold);box-shadow:0 6px 0 #0a1330}
+.btn.dark:hover{transform:translateY(-3px)}
+
+/* hero */
+.hero{min-height:min(780px,calc(100svh - 60px));display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:24px;padding:40px 0 20px}
+.logo{font-size:clamp(30px,5.2vw,72px);white-space:nowrap;line-height:.95;background:linear-gradient(#fff6b8,var(--gold) 50%,var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 0 #1b3f9c) drop-shadow(0 0 22px #2e7bff88);-webkit-text-stroke:2px #2e5fd1;paint-order:stroke fill}
+.sub{font-size:clamp(20px,3.4vw,38px);color:#fff;margin:8px 0 4px;text-shadow:0 3px 0 #0a1330}
+.rule{width:260px;max-width:70%;height:4px;margin:14px 0 20px;background:linear-gradient(90deg,var(--gold),transparent);border-radius:4px}
+.lead{max-width:520px;color:var(--dim);font-size:17px;margin-bottom:28px}
+.cta{display:flex;gap:16px;flex-wrap:wrap}
+.hero-art{position:relative;height:min(74vh,640px);display:grid;place-items:center}
+.hero-art .halo{position:absolute;width:76%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#7b3dff66,#2e7bff22 55%,transparent 70%);animation:pulse 4s ease-in-out infinite}
+.hero>div{min-width:0}.hero>div:first-child{position:relative;z-index:2}.split .shot:not(.tall) img{max-height:520px;object-fit:cover}.hero-art img.hero{position:relative;height:100%;max-width:100%;object-fit:contain;filter:drop-shadow(0 18px 30px #000a);animation:float 4.5s ease-in-out infinite}
+.hero-art .ship{position:absolute;right:-4%;top:2%;width:34%;animation:fly 7s ease-in-out infinite;filter:drop-shadow(0 12px 20px #000a)}
+@keyframes float{50%{transform:translateY(-14px)}}
+@keyframes pulse{50%{transform:scale(1.08);opacity:.75}}
+@keyframes fly{0%,100%{transform:translate(0,0) rotate(-3deg)}50%{transform:translate(-18px,16px) rotate(3deg)}}
+@media(max-width:860px){.hero{grid-template-columns:1fr;text-align:center}.hero .rule{margin-inline:auto}.lead{margin-inline:auto}.cta{justify-content:center}.hero-art{height:52vh;order:-1}}
+
+/* secciones */
+section{padding:84px 0}
+.tag{display:inline-block;padding:6px 18px;border-radius:999px;background:#0f1b33;border:2px solid var(--cyan);color:var(--cyan);font-size:12px;margin-bottom:14px}
+h2{font-size:clamp(30px,5vw,52px);color:var(--gold);text-shadow:0 3px 0 #1b3f9c;line-height:1.05;margin-bottom:14px}
+.intro{max-width:640px;color:var(--dim);font-size:17px;margin-bottom:40px}
+.center{text-align:center}.center .intro{margin-inline:auto}
+
+/* cards */
+.grid{display:grid;gap:20px}
+.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.g3{grid-template-columns:1fr 1fr}.g4{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.g3,.g4{grid-template-columns:1fr}}
+.card{background:linear-gradient(#14213dcc,#0f1b33ee);border:3px solid #2e7bff;border-radius:22px;padding:24px;box-shadow:0 8px 0 #0a1330,0 0 28px #2e7bff22;transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-6px);border-color:var(--cyan)}
+.card h3{color:var(--gold);font-size:20px;margin:10px 0 6px}
+.card p{color:var(--dim);font-size:15px}
+.ico{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:28px;background:#050b1e;border:2px solid var(--gold)}
+
+/* personajes */
+.cast{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media(max-width:900px){.cast{grid-template-columns:1fr 1fr}}
+.char{position:relative;text-align:center;background:radial-gradient(circle at 50% 70%,#3a2a8a55,#0f1b33ee 70%);border:3px solid #2e7bff;border-radius:22px;padding:18px 10px 16px;overflow:hidden;box-shadow:0 8px 0 #0a1330}
+.char .stage{height:210px;display:flex;align-items:flex-end;justify-content:center}
+.char .stage img{max-height:100%;max-width:92%;object-fit:contain;filter:drop-shadow(0 10px 12px #000b)}
+.char h3{margin-top:10px;color:var(--gold);font-size:18px}
+.char small{color:var(--dim);font-size:13px;font-weight:700}
+.char.boss{border-color:#ff5a3a}.char.boss h3{color:#ff8a5a}
+.char.star{border-color:var(--gold)}
+
+/* marcha */
+.march{position:relative;height:200px;overflow:hidden;margin-top:34px;border-radius:22px;border:3px solid #2e7bff;background:linear-gradient(#0f1b3388,#050b1ecc),url(assets/map.jpg) center 40%/cover}
+.march .ground{position:absolute;left:0;right:0;bottom:0;height:34px;background:linear-gradient(#1a2a4acc,#0a1330)}
+.march img{position:absolute;bottom:14px;height:130px;will-change:transform}
+.march .lbl{position:absolute;left:18px;top:12px;font-family:Injekuta;font-weight:900;font-size:13px;color:var(--cyan);letter-spacing:.1em}
+
+/* mapa / cinemática */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
+@media(max-width:860px){.split{grid-template-columns:1fr}}
+.shot{border-radius:22px;border:3px solid var(--gold);box-shadow:0 10px 0 #0a1330,0 0 40px #ffd43a22;overflow:hidden;position:relative}
+.shot img{width:100%;display:block}
+.shot.tall img{aspect-ratio:3/4;object-fit:cover}
+.list{list-style:none;display:grid;gap:12px;margin-top:20px}
+.list li{display:flex;gap:12px;align-items:flex-start;color:var(--ink)}
+.list li::before{content:"★";color:var(--gold)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px}
+@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}}
+.stat{background:var(--panel);border:3px solid #2e7bff;border-radius:20px;text-align:center;padding:18px 8px}
+.stat b{display:block;font-family:Injekuta;font-weight:900;font-size:clamp(30px,5vw,48px);color:var(--gold);text-shadow:0 3px 0 #1b3f9c}
+.stat span{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+
+/* cta final */
+.final{text-align:center;padding:90px 0 60px}
+.final .panel{background:linear-gradient(#14213dee,#0f1b33);border:3px solid var(--cyan);border-radius:30px;padding:54px 24px;box-shadow:0 10px 0 #0a1330,0 0 60px #39e0ff22}
+footer{padding:30px 0 50px;text-align:center;color:var(--dim);font-size:13px;border-top:2px solid #2e7bff33}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s,transform .7s}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="space"></div><canvas id="stars"></canvas>
+
+<nav><div class="wrap">
+  <a class="brand" href="#top">GALACTIC Z</a>
+  <ul><li><a href="#juego">El juego</a></li><li><a href="#personajes">Personajes</a></li><li><a href="#mundo">Planetas</a></li><li><a href="#mision">Misiones</a></li><li><a href="#descarga">Jugar</a></li></ul>
+</div></nav>
+
+<header class="wrap hero" id="top">
+  <div>
+    <h1 class="logo">Galactic Z</h1>
+    <p class="sub">Space Warriors</p>
+    <div class="rule"></div>
+    <p class="lead">Las hordas de zombis cruzan la galaxia y solo queda tu fortaleza. Coloca a tus astronautas, desata el arsenal y sobrevive a 50 niveles en 5 planetas.</p>
+    <div class="cta"><a class="btn gold" href="#descarga">Jugar ahora</a><a class="btn dark" href="#personajes">Conoce a los personajes</a></div>
+  </div>
+  <div class="hero-art">
+    <div class="halo"></div>
+    <img class="hero" src="assets/hero.png" alt="Capitán Vega, astronauta de Galactic Z">
+    <img class="ship" src="assets/ship.png" alt="Nave de apoyo aéreo">
+  </div>
+</header>
+
+<section id="juego"><div class="wrap">
+  <div class="center reveal"><span class="tag">El juego</span><h2>Resiste. Mejora. Conquista.</h2>
+  <p class="intro">Arcade de defensa en vertical, pensado para jugar con una mano. Cada oleada es una decisión: armas, habilidades y refuerzos.</p></div>
+  <div class="grid g3">
+    <div class="card reveal"><div class="ico">🛡️</div><h3>Defiende la fortaleza</h3><p>Tus astronautas disparan solos mientras tú lanzas torretas, minas, drones y ataques orbitales en el momento justo.</p></div>
+    <div class="card reveal"><div class="ico">💥</div><h3>Arsenal y habilidades</h3><p>Rifle, escopeta, francotirador, lanzamisiles... y habilidades como señuelo holográfico, agujero negro, napalm o ojiva nuclear.</p></div>
+    <div class="card reveal"><div class="ico">👾</div><h3>Hordas y jefes</h3><p>Zombis, lobos, gigantes de meteorito y jefes colosales. La dificultad sube con más enemigos, no con trampas.</p></div>
+    <div class="card reveal"><div class="ico">🎮</div><h3>8 minijuegos</h3><p>Tiro al blanco, torreta, hackeo, pinball, asteroides, artillería, rompe-bloques y rescate con nave. Un premio por cada victoria.</p></div>
+    <div class="card reveal"><div class="ico">🎖️</div><h3>Rangos y uniformes</h3><p>Sube de rango, entra en el cuartel y cambia los colores de tu escuadra.</p></div>
+    <div class="card reveal"><div class="ico">🌍</div><h3>8 idiomas</h3><p>Español, inglés, francés, alemán, portugués, árabe, chino e indonesio.</p></div>
+  </div>
+  <div class="stats reveal">
+    <div class="stat"><b>50</b><span>Niveles</span></div>
+    <div class="stat"><b>5</b><span>Planetas</span></div>
+    <div class="stat"><b>8</b><span>Minijuegos</span></div>
+    <div class="stat"><b>8</b><span>Idiomas</span></div>
+  </div>
+</div></section>
+
+<section id="personajes"><div class="wrap">
+  <div class="center reveal"><span class="tag">Personajes</span><h2>Conoce al reparto</h2>
+  <p class="intro">Todos los personajes, tal y como se mueven en el juego.</p></div>
+  <div class="cast">
+    <div class="char star reveal"><div class="stage"><img data-anim="def" data-n="9" data-fps="12" src="assets/def_1.png" alt="Astronauta"></div><h3>Astronauta</h3><small>Tu escuadra de élite</small></div>
+    <div class="char reveal"><div class="stage"><img data-anim="zombie" data-n="7" data-fps="9" src="assets/zombie_1.png" alt="Zombi"></div><h3>Zombi</h3><small>Infantería de la horda</small></div>
+    <div class="char reveal"><div class="stage"><img data-anim="wolf" data-n="4" data-fps="9" src="assets/wolf_1.png" alt="Lobo"></div><h3>Lobo</h3><small>Rápido y feroz</small></div>
+    <div class="char boss reveal"><div class="stage"><img data-anim="stalker" data-n="8" data-fps="7" src="assets/stalker_1.png" alt="Stalker"></div><h3>Stalker</h3><small>Gigante de meteorito</small></div>
+    <div class="char boss reveal" style="grid-column:span 2"><div class="stage" style="height:250px"><img data-anim="boss" data-n="8" data-fps="7" src="assets/boss_1.png" alt="Jefe"></div><h3>El Jefe</h3><small>Colosal. Aguanta si te atreves.</small></div>
+    <div class="char star reveal" style="grid-column:span 2"><div class="stage" style="height:250px"><img src="assets/hero_fire.png" alt="Astronauta disparando"></div><h3>Fuego de cobertura</h3><small>El Capitán Vega abre fuego</small></div>
+  </div>
+  <div class="march reveal" id="march"><span class="lbl">▶ LA HORDA SE ACERCA</span><div class="ground"></div></div>
+</div></section>
+
+<section id="mundo"><div class="wrap split">
+  <div class="reveal"><span class="tag">Mapa de operaciones</span><h2>5 planetas, 50 niveles</h2>
+  <p class="intro" style="margin-bottom:0">Avanza por islas flotantes y ruinas cristalinas. Cada nivel superado te acerca al corazón del enjambre.</p>
+  <ul class="list"><li>Mapa con progreso y estrellas por nivel</li><li>Entornos distintos en cada planeta</li><li>Minijuego cada pocos niveles para ganar mejoras</li></ul></div>
+  <div class="shot reveal"><img src="assets/map.jpg" alt="Mapa de operaciones" loading="lazy"></div>
+</div></section>
+
+<section id="mision"><div class="wrap split">
+  <div class="shot tall reveal"><img src="assets/cab3.jpg" alt="Cabina de la nave de apoyo" loading="lazy"></div>
+  <div class="reveal"><span class="tag">Misión especial</span><h2>Sal de la fortaleza. Repliégate con apoyo aéreo.</h2>
+  <p class="intro" style="margin-bottom:0">Cada cinco niveles, el Capitán Vega te encarga una misión fuera de las murallas.</p>
+  <ul class="list"><li>Recoge munición, libera rehenes o reúne energía para la base</li><li>Cuando termines, una nave de apoyo te cubre durante el repliegue</li><li>Toma los mandos de la ametralladora y aguanta 60 segundos</li><li>Si regresas a salvo, eliges un premio</li></ul></div>
+</div></section>
+
+<section class="final" id="descarga"><div class="wrap"><div class="panel reveal">
+  <h2>El enjambre no espera</h2>
+  <p class="intro" style="margin-inline:auto">Galactic Z: Space Warriors para Android. Pronto, en tu tienda.</p>
+  <div class="cta" style="justify-content:center"><span class="btn gold">Próximamente</span><a class="btn dark" href="https://github.com/santiatienza-collab/galacticz">GitHub</a></div>
+</div></div></section>
+
+<footer><div class="wrap">© Galactic Z: Space Warriors</div></footer>
+
+<script>
+// estrellas
+(function(){var c=document.getElementById('stars'),x=c.getContext('2d'),s=[],W,H;
+function init(){W=c.width=innerWidth;H=c.height=innerHeight;s=[];for(var i=0;i<110;i++)s.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+.3,v:Math.random()*.25+.05,p:Math.random()*6})}
+function tick(t){x.clearRect(0,0,W,H);for(var i=0;i<s.length;i++){var o=s[i];o.y+=o.v;if(o.y>H)o.y=0;x.globalAlpha=.4+.6*Math.abs(Math.sin(t/900+o.p));x.fillStyle='#cfe8ff';x.beginPath();x.arc(o.x,o.y,o.r,0,6.3);x.fill()}requestAnimationFrame(tick)}
+addEventListener('resize',init);init();if(!matchMedia('(prefers-reduced-motion:reduce)').matches)requestAnimationFrame(tick)})();
+
+// animación de sprites por fotogramas
+document.querySelectorAll('img[data-anim]').forEach(function(im){
+  var n=+im.dataset.n,fps=+im.dataset.fps,k=im.dataset.anim,f=0,fr=[];
+  for(var i=1;i<=n;i++){var p=new Image();p.src='assets/'+k+'_'+i+'.png';fr.push(p.src)}
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  setInterval(function(){f=(f+1)%n;im.src=fr[f]},1000/fps)});
+
+// marcha de la horda: astronauta resiste, enemigos avanzan
+(function(){var box=document.getElementById('march');if(!box)return;
+  var defs=[{k:'def',n:9},{k:'def',n:9},{k:'def',n:9}],foes=[{k:'zombie',n:7},{k:'wolf',n:4},{k:'zombie',n:7},{k:'stalker',n:8},{k:'zombie',n:7},{k:'wolf',n:4}];
+  var items=[];
+  function add(o,x,v,h){var im=document.createElement('img');im.src='assets/'+o.k+'_1.png';im.style.height=h+'px';box.appendChild(im);items.push({im:im,k:o.k,n:o.n,x:x,v:v,f:Math.random()*o.n})}
+  defs.forEach(function(d,i){add(d,40+i*70,0,120)});
+  foes.forEach(function(d,i){add(d,box.clientWidth+i*190,-(0.6+Math.random()*0.5),d.k=='stalker'?160:d.k=='wolf'?90:120)});
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches,last=0;
+  function loop(t){var dt=Math.min(40,t-last)/16.7;last=t;var W=box.clientWidth;
+    items.forEach(function(o){o.f+=dt*.22;o.im.src='assets/'+o.k+'_'+(1+Math.floor(o.f)%o.n)+'.png';
+      if(o.v){o.x+=o.v*dt;if(o.x<190){o.x=W+Math.random()*300}}
+      o.im.style.transform='translateX('+o.x+'px)'+(o.v?'':'');});
+    if(!reduce)requestAnimationFrame(loop)}
+  requestAnimationFrame(loop)})();
+
+// aparición al hacer scroll
+var io=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.12});
+document.querySelectorAll(".reveal").forEach(function(el){if(location.search.indexOf("static")>-1)el.classList.add("in");else io.observe(el)});
+</script>
+</body>
+</html>
