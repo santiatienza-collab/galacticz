@@ -30,6 +30,8 @@ nav ul{display:flex;gap:24px;list-style:none;font-size:13px;letter-spacing:.08em
 .btn.gold{background:linear-gradient(#fff3a8,var(--gold) 45%,var(--gold2));color:#14213d;box-shadow:0 5px 0 #a8730a}
 .btn.dark{background:#14213d;color:var(--gold);box-shadow:0 5px 0 #0a1330}
 
+.indie{display:inline-block;margin-bottom:14px;padding:5px 14px;border:2px solid var(--gold);border-radius:999px;font-size:12px;font-weight:900;letter-spacing:.18em;color:var(--gold);background:#14213d;box-shadow:0 0 14px #ffd04a66;animation:blink 2.4s ease-in-out infinite}
+@keyframes blink{50%{box-shadow:0 0 22px #ffd04acc}}
 .hero{display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:24px;padding:56px 0 40px}
 .hero>div{min-width:0}
 .logo{font-size:clamp(30px,5.2vw,68px);white-space:nowrap;line-height:1;color:var(--gold);text-shadow:0 4px 0 #1b3f9c}
@@ -99,6 +101,7 @@ footer{padding:26px 0 44px;text-align:center;color:var(--dim);font-size:13px;bor
 
 <header class="wrap hero" id="top">
   <div>
+    <span class="indie">★ NUEVO JUEGO INDIE ★</span>
     <h1 class="logo">Galactic Z</h1>
     <p class="sub">Space Warriors</p>
     <p class="lead">Las hordas de zombis cruzan la galaxia y solo queda tu fortaleza. Coloca a tus astronautas, desata el arsenal y sobrevive a 50 niveles en 5 planetas.</p>
@@ -166,6 +169,6 @@ footer{padding:26px 0 44px;text-align:center;color:var(--dim);font-size:13px;bor
   <span class="btn gold">Próximamente</span>
 </div></div></section>
 
-<footer><div class="wrap">© Galactic Z: Space Warriors</div></footer>
+<footer><div class="wrap">© Galactic Z: Space Warriors · Nuevo juego indie, hecho con cariño y sin presupuesto de estudio grande</div></footer>
 </body>
 </html>
