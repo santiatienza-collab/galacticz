@@ -26,6 +26,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:5
 nav ul{display:flex;gap:24px;list-style:none;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
 @media(max-width:640px){nav ul{display:none}}
 
+.lang{display:flex;gap:6px}.lang button{font:inherit;font-size:12px;letter-spacing:.08em;padding:6px 10px;border-radius:999px;border:2px solid #2e5fd1;background:transparent;color:var(--dim);cursor:pointer}.lang button.on{background:var(--gold);color:#14213d;border-color:var(--gold)}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:0 32px;border-radius:999px;font-size:17px;border:3px solid #2e5fd1}
 .btn.gold{background:linear-gradient(#fff3a8,var(--gold) 45%,var(--gold2));color:#14213d;box-shadow:0 5px 0 #a8730a}
 .btn.dark{background:#14213d;color:var(--gold);box-shadow:0 5px 0 #0a1330}
@@ -97,6 +98,7 @@ footer{padding:26px 0 44px;text-align:center;color:var(--dim);font-size:13px;bor
 <nav><div class="wrap">
   <a class="brand" href="#top">GALACTIC Z</a>
   <ul><li><a href="#juego">El juego</a></li><li><a href="#personajes">Personajes</a></li><li><a href="#mundo">Planetas</a></li><li><a href="#descarga">Jugar</a></li></ul>
+  <div class="lang"><button data-l="es" class="on">ESPAÑOL</button><button data-l="en">ENGLISH</button></div>
 </div></nav>
 
 <header class="wrap hero" id="top">
@@ -169,5 +171,89 @@ footer{padding:26px 0 44px;text-align:center;color:var(--dim);font-size:13px;bor
 </div></div></section>
 
 <footer><div class="wrap">© Galactic Z: Space Warriors · Nuevo juego indie, hecho con cariño y sin presupuesto de estudio grande</div></footer>
+<script>
+(function(){
+var EN={
+"El juego":"The game","Personajes":"Characters","Planetas":"Planets","Jugar":"Play",
+"Las hordas de zombis cruzan la galaxia y solo queda tu fortaleza. Coloca a tus astronautas, desata el arsenal y sobrevive a 50 niveles en 5 planetas.":"Zombie hordes are crossing the galaxy and only your fortress is left. Place your astronauts, unleash the arsenal and survive 50 levels across 5 planets.",
+"Jugar ahora":"Play now",
+"Capitán Vega, astronauta de Galactic Z":"Captain Vega, Galactic Z astronaut",
+"Resiste. Mejora. Conquista.":"Resist. Upgrade. Conquer.",
+"Arcade de defensa en vertical, pensado para jugar con una mano.":"Vertical defense arcade, made to play with one hand.",
+"Defiende la fortaleza":"Defend the fortress",
+"Tus astronautas disparan solos mientras tú lanzas torretas, minas, drones y ataques orbitales.":"Your astronauts fire on their own while you launch turrets, mines, drones and orbital strikes.",
+"Arsenal y habilidades":"Arsenal and skills",
+"Rifle, escopeta, francotirador y lanzamisiles, más habilidades como el agujero negro o la ojiva nuclear.":"Rifle, shotgun, sniper and missile launcher, plus skills like the black hole or the nuclear warhead.",
+"Hordas y jefes":"Hordes and bosses",
+"Zombis, lobos, gigantes de meteorito y jefes colosales.":"Zombies, wolves, meteorite giants and colossal bosses.",
+"8 minijuegos":"8 mini-games",
+"Tiro al blanco, torreta, hackeo, pinball, asteroides, artillería, rompe-bloques y rescate con nave.":"Target shooting, turret, hacking, pinball, asteroids, artillery, block breaker and ship rescue.",
+"Rangos y uniformes":"Ranks and uniforms",
+"Sube de rango y cambia los colores de tu escuadra en el cuartel.":"Rank up and change your squad's colors at the barracks.",
+"8 idiomas":"8 languages",
+"Español, inglés, francés, alemán, portugués, árabe, chino e indonesio.":"Spanish, English, French, German, Portuguese, Arabic, Chinese and Indonesian.",
+"Niveles":"Levels","Minijuegos":"Mini-games","Idiomas":"Languages",
+"Los protagonistas y sus enemigos.":"The heroes and their enemies.",
+"Astronauta":"Astronaut","Tu escuadra de élite":"Your elite squad",
+"Zombi":"Zombie","Infantería de la horda":"Horde infantry",
+"Lobo":"Wolf","Rápido y feroz":"Fast and fierce",
+"Gigante de meteorito":"Meteorite giant","Enorme y muy duro":"Huge and very tough",
+"Gigante de meteorito":"Meteorite giant",
+"Devorador cósmico":"Cosmic devourer","Lento y devastador":"Slow and devastating",
+"Rey Narduk":"King Narduk","Colosal y muy duro":"Colossal and very tough",
+"Nave de combate":"Combat ship","Apoyo desde el cielo":"Support from the sky",
+"Gigante de meteorito":"Meteorite giant",
+"5 planetas, 50 niveles":"5 planets, 50 levels",
+"Avanza por islas flotantes y ruinas cristalinas hasta el corazón del enjambre.":"Advance through floating islands and crystal ruins to the heart of the swarm.",
+"Mapa con progreso y estrellas por nivel":"Map with progress and stars per level",
+"Un entorno distinto en cada planeta":"A different environment on every planet",
+"Minijuegos para ganar mejoras":"Mini-games to win upgrades",
+"Mapa del planeta de hielo":"Ice planet map",
+"Cómic de la historia de Galactic Z":"Galactic Z story comic",
+"La última batalla":"The last battle",
+"Un guerrero espacial, una galaxia invadida y una horda que no se detiene. Desde la superficie hasta las estrellas, la historia termina con una sola victoria.":"A space warrior, an invaded galaxy and a horde that never stops. From the surface to the stars, the story ends with a single victory.",
+"Combate a la vista, sin tregua":"Combat in plain sight, no truce",
+"Armadura pesada y armas de plasma":"Heavy armor and plasma weapons",
+"Apoyo aéreo cuando todo parece perdido":"Air support when all seems lost",
+"Desde la cabina":"From the cockpit",
+"Cuando llega el repliegue, tomas los mandos de la ametralladora de la nave.":"When the retreat comes, you take the controls of the ship's machine gun.",
+"Cabina de la nave de apoyo":"Support ship cockpit",
+"Galactic Z: Space Warriors para Android":"Galactic Z: Space Warriors for Android",
+"Pronto, en tu tienda.":"Coming soon to your store.",
+"Próximamente":"Coming soon",
+"Nave espacial":"Spaceship","Rápido y feroz":"Fast and fierce",
+"Defiende tu fortaleza espacial contra hordas de zombis: 50 niveles, 5 planetas y 8 minijuegos.":"Defend your space fortress against zombie hordes: 50 levels, 5 planets and 8 mini-games.",
+"Defiende la fortaleza. Conquista 5 planetas.":"Defend the fortress. Conquer 5 planets."
+};
+var ES={};for(var k in EN)ES[EN[k]]=k;
+var orig=new WeakMap(),lang="es";
+function tx(s,d){var t=s.trim();return d[t]!==undefined?s.replace(t,d[t]):null}
+function walk(n,d){
+  if(n.nodeType===3){var r=tx(n.nodeValue,d);if(r!==null)n.nodeValue=r;return}
+  if(n.nodeType!==1||n.tagName==="SCRIPT"||n.tagName==="STYLE")return;
+  if(n.hasAttribute("alt")){var a=n.getAttribute("alt"),ra=tx(a,d);if(ra!==null)n.setAttribute("alt",ra)}
+  for(var c=n.firstChild;c;c=c.nextSibling)walk(c,d);
+}
+function foot(en){var f=document.querySelector("footer .wrap");if(f)f.textContent=en?"© Galactic Z: Space Warriors · A new indie game, made with love and no big-studio budget":"© Galactic Z: Space Warriors · Nuevo juego indie, hecho con cariño y sin presupuesto de estudio grande"}
+function metas(en){
+  document.title="Galactic Z: Space Warriors";
+  var m=document.querySelector('meta[name=description]');
+  m.content=en?"Galactic Z: Space Warriors. "+EN["Defiende tu fortaleza espacial contra hordas de zombis: 50 niveles, 5 planetas y 8 minijuegos."]:"Galactic Z: Space Warriors. Defiende tu fortaleza espacial contra hordas de zombis: 50 niveles, 5 planetas y 8 minijuegos.";
+}
+window.setLang=function(l){
+  if(l===lang)return;
+  walk(document.body,l==="en"?EN:ES);
+  foot(l==="en");metas(l==="en");
+  document.documentElement.lang=l;lang=l;
+  try{localStorage.setItem("gz_lang",l)}catch(e){}
+  var b=document.querySelectorAll(".lang button");for(var i=0;i<b.length;i++)b[i].classList.toggle("on",b[i].dataset.l===l);
+};
+document.addEventListener("DOMContentLoaded",function(){
+  var s="es";try{s=localStorage.getItem("gz_lang")||((navigator.language||"es").slice(0,2)==="es"?"es":"en")}catch(e){}
+  var b=document.querySelectorAll(".lang button");for(var i=0;i<b.length;i++){b[i].classList.toggle("on",b[i].dataset.l==="es");b[i].onclick=function(){setLang(this.dataset.l)}}
+  if(s==="en")setLang("en");
+});
+})();
+</script>
 </body>
 </html>
